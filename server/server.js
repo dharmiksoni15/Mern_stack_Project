@@ -6,7 +6,10 @@ const app=express();
 // import router 
 const authRoutes=require("./routers/auth-router");
 
-// connect  therouter
+// middleware
+app.use(express.json());
+
+// connect the router
 app.use("/api/auth",authRoutes);
 
 app.get("/",(req,res)=>{
