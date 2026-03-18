@@ -9,5 +9,6 @@ const authController=require("../controllers/auth_controller")
 // Defining the routes  
 router.get("/",authController.home);
 router.post("/register",authController.register);
+router.post("/login",authController.login);
 
 module.exports=router;
