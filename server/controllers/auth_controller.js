@@ -35,12 +35,13 @@ const register = async (req, res) => {
       username,
       email,
       phone,
-      password:hash_password,
+      password
     });
 
     res.status(201).json({
       message: "User Registered Successfully",
-      user: userCreated
+        token: await userCreated.generateToken(),
+      userID:userCreated._id.toString(),
     });
 
   } catch (error) {
