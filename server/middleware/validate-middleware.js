@@ -1,25 +1,25 @@
 const validate = (schema) => async (req, res, next) => {
   try {
     const parseBody = await schema.parseAsync(req.body);
-    req.body = parseBody; // validated data
+    req.body = parseBody;
     next();
-  } catch (error) {
-    // Safe access to error messages
-    if (error instanceof require("zod").ZodError) {
-      // Use format() for safe structured errors
-      const formattedErrors = error.format();
+  } catch (err) {
 
-      console.log("Validation Errors:", formattedErrors);
+    const status = 422;
+    const message = "Fill the input properly";
 
-      return res.status(400).json({
-        msg: "Validation Failed",
-        errors: formattedErrors, // send structured errors
-      });
-    }
+    // extract only messages
+    const extraDetails = err.issues?.map((issue) => issue.message);
 
-    // If unknown error
-    console.error(error);
-    return res.status(500).json({ msg: "Internal Server Error" });
+    const error = {
+      status,
+      message,
+      extraDetails,
+    };
+
+    console.log(error);
+
+    next(error);
   }
 };
 

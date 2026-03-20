@@ -9,6 +9,7 @@ const app = express();
 const authRoutes = require("./routers/auth-router");
 
 const connectDb = require("./utils/db");
+const errorMiddleware = require('./middleware/error-middleware');
 
 
 // middleware
@@ -25,6 +26,9 @@ app.get("/", (req, res) => {
 app.use((req, res) => {
   res.status(404).send("Page Not Found");
 });
+
+// we check before the connection if error occuar then no connection
+app.use(errorMiddleware);
 
 const PORT = 3100;
 
