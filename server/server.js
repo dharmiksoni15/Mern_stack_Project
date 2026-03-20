@@ -7,6 +7,7 @@ const app = express();
 
 // import router
 const authRoutes = require("./routers/auth-router");
+const contactRoute=require("./routers/contact-router");
 
 const connectDb = require("./utils/db");
 const errorMiddleware = require('./middleware/error-middleware');
@@ -17,6 +18,7 @@ app.use(express.json());
 
 // connect the router
 app.use("/api/auth", authRoutes);
+app.use("/api/form",contactRoute);
 
 app.get("/", (req, res) => {
   res.send("Welcome Server Run Seccesfully!");
