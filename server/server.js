@@ -3,6 +3,7 @@ require('dotenv').config();
 
 // creating a server
 const express = require("express");
+const cors=require("cors");
 const app = express();
 
 // import router
@@ -12,8 +13,19 @@ const contactRoute=require("./routers/contact-router");
 const connectDb = require("./utils/db");
 const errorMiddleware = require('./middleware/error-middleware');
 
+// handling cors policy issue
+
+// handling cors policy issue
+const corsOptions = {
+  origin: "http://localhost:5173",
+  methods: ["GET","POST","PUT","DELETE","PATCH","HEAD"],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 // middleware
+
 app.use(express.json());
 
 // connect the router
