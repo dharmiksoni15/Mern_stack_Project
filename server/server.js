@@ -13,7 +13,6 @@ const contactRoute=require("./routers/contact-router");
 const connectDb = require("./utils/db");
 const errorMiddleware = require('./middleware/error-middleware');
 
-// handling cors policy issue
 
 // handling cors policy issue
 const corsOptions = {
