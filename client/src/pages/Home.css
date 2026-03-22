@@ -209,94 +209,148 @@ body {
 }
 
 /* ===== CONTACT FORM ===== */
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  max-width: 560px;
+/* ===== CONTACT SECTION ===== */
+
+.contact-page{
+  max-width: 1100px;
+  margin: auto;
+  padding: 80px 20px;
 }
 
+.contact-page h2{
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.contact-page p{
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* ===== CONTACT INFO ===== */
+
+.contact-info{
+  margin-bottom: 40px;
+  line-height: 1.8;
+  font-size: 15px;
+}
+
+.contact-info a{
+  color: #111;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contact-info a:hover{
+  text-decoration: underline;
+}
+
+/* ===== CONTACT FORM ===== */
+
+.contact-form{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  padding: 30px;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+}
+
+/* INPUTS */
+
 .contact-form input,
-.contact-form textarea {
-  padding: 12px 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+.contact-form textarea{
+  padding: 14px 16px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
   font-size: 15px;
   font-family: inherit;
   background-color: #fff;
   color: #222;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.25s ease;
 }
+
+/* FOCUS EFFECT */
 
 .contact-form input:focus,
-.contact-form textarea:focus {
-  border-color: #555;
+.contact-form textarea:focus{
+  border-color: #111;
+  box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
 }
 
-.contact-form textarea {
-  min-height: 130px;
+/* TEXTAREA */
+
+.contact-form textarea{
+  min-height: 140px;
   resize: vertical;
 }
 
-.contact-form button {
-  padding: 12px 24px;
-  background-color: #111;
+/* BUTTON */
+
+.contact-form button{
+  padding: 13px 26px;
+  background: #111;
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   width: fit-content;
-  transition: background-color 0.2s ease;
-  font-family: inherit;
+  transition: all 0.25s ease;
 }
 
-.contact-form button:hover {
-  background-color: #333;
+/* BUTTON HOVER */
+
+.contact-form button:hover{
+  background: #333;
+  transform: translateY(-2px);
 }
 
 /* ===== FOOTER ===== */
-footer {
+
+footer{
   text-align: center;
-  padding: 30px 0;
+  padding: 35px 0;
   font-size: 13px;
   color: #888;
-  border-top: 1px solid #e0e0e0;
-  margin-top: 20px;
+  border-top: 1px solid #e5e5e5;
+  margin-top: 60px;
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 600px) {
-  .hero-content h1 {
-    font-size: 30px;
+
+@media (max-width: 768px){
+
+  .contact-page{
+    padding: 60px 20px;
   }
 
-  .hero-content h2 {
+  .contact-page h2{
+    font-size: 26px;
+  }
+
+  .contact-form{
+    padding: 24px;
+  }
+
+}
+
+@media (max-width: 600px){
+
+  .hero-content h1{
+    font-size: 28px;
+  }
+
+  .hero-content h2{
     font-size: 18px;
   }
 
-  .services-grid {
+  .services-grid{
     grid-template-columns: 1fr;
   }
-}
 
-{/* CONTACT */}
-<section className="contact">
-  <h2>Get in Touch 🚀</h2>
-  <p>Have a project in mind or want to hire me? Drop a message and I'll get back to you soon.</p>
-  <div className="contact-info">
-    <p>📧 Email: dharmiksoni010@gmail.com</p>
-    <p>💻 GitHub: <a href="https://github.com/dharmiksoni15" target="_blank" rel="noopener noreferrer">github.com/dharmiksoni15</a></p>
-    <p>🔗 LinkedIn: <a href="https://www.linkedin.com/in/dharmik-soni-26a557280" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a></p>
-    <p>📍 Location: India · Available for Remote Work</p>
-  </div>
-  <form className="contact-form">
-    <input type="text" placeholder="Your Name" required />
-    <input type="email" placeholder="Your Email" required />
-    <input type="text" placeholder="Subject" required />
-    <textarea placeholder="Your message..." required></textarea>
-    <button type="submit">Send Message 📨</button>
-  </form>
-</section>
+}
