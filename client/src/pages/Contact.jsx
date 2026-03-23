@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import "./Home.css";
 
 const Contact = () => {
-
   const [contact, setContact] = useState({
     username: "",
     email: "",
-    message: ""
+    message: "",
   });
 
   // handleInput Event
@@ -21,10 +20,27 @@ const Contact = () => {
   };
 
   // handleSubmit event
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(contact);
-  };
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  console.log(contact);
+
+  try {
+    const response = await fetch("http://localhost:3100/api/form/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(contact),
+    });
+
+    if (response.ok) {
+      alert("Message sent successfully");
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   return (
     <section className="contact-page">
@@ -63,7 +79,6 @@ const Contact = () => {
       </div>
 
       <form onSubmit={handleSubmit} className="contact-form">
-
         <label>Username</label>
         <input
           type="text"
@@ -88,9 +103,7 @@ const Contact = () => {
         ></textarea>
 
         <button type="submit">Send Message</button>
-
       </form>
-
     </section>
   );
 };
