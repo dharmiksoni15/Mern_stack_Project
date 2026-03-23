@@ -17,6 +17,9 @@ export const AuthProvider = ({ children }) => {
     setToken("");
   };
 
+
+   const authorizationToken = `Bearer ${token}`;
+   
    const isLoggedIn = !!token;
   return (
     <AuthContext.Provider value={{ storeToken, token,LogoutUser,isLoggedIn }}>
