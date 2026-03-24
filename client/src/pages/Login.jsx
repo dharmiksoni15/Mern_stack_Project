@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../store/Auth";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
+import { toast } from "react-toastify"; // ✅ add
 
 const URL = "http://localhost:3100/api/auth/login";
 
@@ -10,7 +11,8 @@ const Login = () => {
   const navigate = useNavigate();
 
   const { storeToken } = useAuth(); 
-  console.log("AUTH VALUE:", useAuth()); 
+  // ❌ remove extra hook call
+  console.log("AUTH VALUE:", useAuth());
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -32,15 +34,26 @@ const Login = () => {
       console.log("login form response:", res_data);
 
       if (response.ok) {
-        alert("Login Successful");
+        toast.success("Login Successful 🎉"); // ✅ toast
+
         storeToken(res_data.token); 
         setUser({ email: "", password: "" });
-        navigate("/");
+
+        // ⏳ delay so toast shows
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+
       } else {
-        alert("Invalid Credentials");
+        toast.error(res_data.message || "Invalid Credentials"); // ✅ toast
+
+        if (res_data.extraDetails) {
+          res_data.extraDetails.forEach((err) => toast.error(err));
+        }
       }
     } catch (error) {
       console.log(error);
+      toast.error("Server error 🚨"); // ✅ added
     }
   };
 
@@ -49,9 +62,23 @@ const Login = () => {
       <h1>Login Form</h1>
       <form onSubmit={handleSubmit}>
         <label>Email</label>
-        <input type="email" name="email" value={user.email} onChange={handleInput} />
+        <input
+          type="email"
+          name="email"
+          value={user.email}
+          onChange={handleInput}
+          required
+        />
+
         <label>Password</label>
-        <input type="password" name="password" value={user.password} onChange={handleInput} />
+        <input
+          type="password"
+          name="password"
+          value={user.password}
+          onChange={handleInput}
+          required
+        />
+
         <button type="submit">Login</button>
       </form>
     </div>
