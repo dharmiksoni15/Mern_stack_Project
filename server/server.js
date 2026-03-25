@@ -9,6 +9,7 @@ const app = express();
 // import router
 const authRoutes = require("./routers/auth-router");
 const contactRoute=require("./routers/contact-router");
+const adminRoutes=require("./routers/admin-router");
 
 const connectDb = require("./utils/db");
 const errorMiddleware = require('./middleware/error-middleware');
@@ -31,17 +32,28 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/form",contactRoute);
 
+
+
 app.get("/", (req, res) => {
   res.send("Welcome Server Run Seccesfully!");
 });
+
+// let's define admin route
+
+app.use("/api/admin",adminRoutes)
+console.log("Admin route loaded");
 
 // 404 handler
 app.use((req, res) => {
   res.status(404).send("Page Not Found");
 });
 
+
+
 // we check before the connection if error occuar then no connection
 app.use(errorMiddleware);
+
+
 
 const PORT = 3100;
 

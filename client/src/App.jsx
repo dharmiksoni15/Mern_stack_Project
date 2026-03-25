@@ -9,6 +9,7 @@ import Register from "./pages/Register";
 import Service from "./pages/Service";
 import Navbar from "./components/Navbar";
 import Logout from "./pages/Logout";
+import Admin from "./pages/Admin";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/service" element={<Service />} />
           <Route path="/logout" element={<Logout/>} />
+           <Route path="/admin/users" element={<Admin/>} />
         </Routes>
       </BrowserRouter>
    
