@@ -10,6 +10,7 @@ import Service from "./pages/Service";
 import Navbar from "./components/Navbar";
 import Logout from "./pages/Logout";
 import Admin from "./pages/Admin";
+import AdminContacts from "./pages/AdminContacs";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/service" element={<Service />} />
           <Route path="/logout" element={<Logout/>} />
            <Route path="/admin/users" element={<Admin/>} />
+            <Route path="/admin/contacts" element={<AdminContacts />} />
         </Routes>
       </BrowserRouter>
    

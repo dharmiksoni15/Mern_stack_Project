@@ -10,6 +10,7 @@ const app = express();
 const authRoutes = require("./routers/auth-router");
 const contactRoute=require("./routers/contact-router");
 const adminRoutes=require("./routers/admin-router");
+const adminContacts=require("./routers/admin-router");
 
 const connectDb = require("./utils/db");
 const errorMiddleware = require('./middleware/error-middleware');
@@ -42,6 +43,10 @@ app.get("/", (req, res) => {
 
 app.use("/api/admin",adminRoutes)
 console.log("Admin route loaded");
+
+app.use("/api/admin",adminContacts)
+console.log("Admin route loaded");
+
 
 // 404 handler
 app.use((req, res) => {
