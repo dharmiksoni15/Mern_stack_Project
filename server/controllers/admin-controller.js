@@ -3,22 +3,20 @@ const Contact=require("../models/contact-model");
 
 // getall users logic
 
-const getallUsers=async(req,res)=>{
-    try {
-        const users=await User.find().select("-password");
+const getallUsers = async (req, res) => {
+  try {
+    const users = await User.find({ isAdmin: true });
 
-        if(!users || users.length === 0){
-            return res.status(404).json({message:"No User Found"});
-        }
-        res.status(200).json(users);
-    } catch (error) {
-        res.status(500).json({message:"Error Fetching users"});
-        next(error);
-    }
+    console.log("ADMIN USERS 👉", users); // 👈 check here
+
+    return res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error fetching users" });
+  }
 };
 
-
-// getall contacts logic
+// getAll contacts logic
 
 const getallContacts=async(req,res)=>{
 try {

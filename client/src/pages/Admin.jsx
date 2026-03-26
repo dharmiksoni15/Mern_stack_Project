@@ -6,17 +6,21 @@ const AdminUsers = () => {
 
   // 🔥 Fetch Users
   const getUsers = async () => {
-    try {
-      const res = await axios.get("http://localhost:3100/api/admin/users");
+  try {
+    const token = localStorage.getItem("token"); // get JWT
 
-      console.log("API Response:", res.data);
+    const res = await axios.get("http://localhost:3100/api/admin/users", {
+      headers: {
+        Authorization: `Bearer ${token}`, // send token
+      },
+    });
 
-      // ✅ Backend direct array mokle che
-      setUsers(res.data);
-    } catch (error) {
-      console.log("Error fetching users:", error);
-    }
-  };
+    console.log("API Response:", res.data);
+    setUsers(res.data);
+  } catch (error) {
+    console.log("Error fetching users:", error.response?.data || error.message);
+  }
+};
 
   useEffect(() => {
     getUsers();

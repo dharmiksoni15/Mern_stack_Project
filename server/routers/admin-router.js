@@ -1,15 +1,15 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/user-model");
+
 const { getallUsers, getallContacts } = require("../controllers/admin-controller");
+const verifyAdmin = require("../middleware/admin-middleware");
 
 // 👉 GET: /api/admin/users
+router.get("/users", verifyAdmin, getallUsers);
 
-router.get("/users", getallUsers);
-console.log("Admin router working");
+// 👉 GET: /api/admin/contacts
+router.get("/contacts", verifyAdmin, getallContacts);
 
-router.get("/contacts", getallContacts);
-console.log("Admin router working");
-
+console.log("✅ Admin router working");
 
 module.exports = router;

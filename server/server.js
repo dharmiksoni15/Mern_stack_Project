@@ -1,70 +1,56 @@
 // dotenv file import
-require('dotenv').config();
+require("dotenv").config();
 
 // creating a server
 const express = require("express");
-const cors=require("cors");
+const cors = require("cors");
 const app = express();
 
-// import router
+// import routers
 const authRoutes = require("./routers/auth-router");
-const contactRoute=require("./routers/contact-router");
-const adminRoutes=require("./routers/admin-router");
-const adminContacts=require("./routers/admin-router");
+const contactRoute = require("./routers/contact-router");
+const adminRoutes = require("./routers/admin-router");
 
 const connectDb = require("./utils/db");
-const errorMiddleware = require('./middleware/error-middleware');
-
+const errorMiddleware = require("./middleware/error-middleware");
 
 // handling cors policy issue
 const corsOptions = {
   origin: "http://localhost:5173",
-  methods: ["GET","POST","PUT","DELETE","PATCH","HEAD"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "HEAD"],
   credentials: true,
 };
 
 app.use(cors(corsOptions));
 
 // middleware
-
 app.use(express.json());
 
-// connect the router
+// routes
 app.use("/api/auth", authRoutes);
-app.use("/api/form",contactRoute);
+app.use("/api/form", contactRoute);
+app.use("/api/admin", adminRoutes); // ✅ ONLY ONCE
 
+console.log("✅ Admin route loaded");
 
-
+// home route
 app.get("/", (req, res) => {
-  res.send("Welcome Server Run Seccesfully!");
+  res.send("Welcome Server Run Successfully!");
 });
-
-// let's define admin route
-
-app.use("/api/admin",adminRoutes)
-console.log("Admin route loaded");
-
-app.use("/api/admin",adminContacts)
-console.log("Admin route loaded");
-
 
 // 404 handler
 app.use((req, res) => {
   res.status(404).send("Page Not Found");
 });
 
-
-
-// we check before the connection if error occuar then no connection
+// error middleware
 app.use(errorMiddleware);
 
-
-
+// start server
 const PORT = 3100;
 
 connectDb().then(() => {
-  // starting the server
   app.listen(PORT, () => {
-    console.log(`server is running on port ${PORT}`);
+    console.log(`🚀 server is running on port ${PORT}`);
   });
 });
