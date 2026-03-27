@@ -5,7 +5,7 @@ const Contact=require("../models/contact-model");
 
 const getallUsers = async (req, res) => {
   try {
-    const users = await User.find({ isAdmin: true });
+    const users = await User.find();
 
     console.log("ADMIN USERS 👉", users); // 👈 check here
 

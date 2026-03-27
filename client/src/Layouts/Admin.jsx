@@ -1,61 +1,76 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminUsers.css";
+
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
 
-  // 🔥 Fetch Users
-  const getUsers = async () => {
-  try {
-    const token = localStorage.getItem("token"); // get JWT
+  const getAllUsers = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-    const res = await axios.get("http://localhost:3100/api/admin/users", {
-      headers: {
-        Authorization: `Bearer ${token}`, // send token
-      },
-    });
+      const res = await axios.get("http://localhost:3100/api/admin/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    console.log("API Response:", res.data);
-    setUsers(res.data);
-  } catch (error) {
-    console.log("Error fetching users:", error.response?.data || error.message);
-  }
-};
+      console.log("Users Data:", res.data);
+
+      setUsers(res.data); // ⚠️ check backend format
+    } catch (error) {
+      console.log(
+        "Error:",
+        error.response?.data || error.message
+      );
+    }
+  };
 
   useEffect(() => {
-    getUsers();
+    getAllUsers();
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Admin Users</h2>
+    <div className="users-container">
+      <h1 className="page-title">Admin Users</h1>
 
-      {/* ✅ Safe check */}
-      {!users || users.length === 0 ? (
-        <p>No users found</p>
-      ) : (
-        users.map((user) => (
-          <div
-            key={user._id}
-            style={{
-              border: "1px solid #ccc",
-              margin: "10px 0",
-              padding: "10px",
-              borderRadius: "5px",
-            }}
-          >
-            <p>
-              <strong>Name:</strong> {user.username}
-            </p>
-            <p>
-              <strong>Email:</strong> {user.email}
-            </p>
-            <p>
-              <strong>Phone:</strong> {user.phone}
-            </p>
-          </div>
-        ))
-      )}
+      <div className="table-card">
+        <table className="users-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Update</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {users.length > 0 ? (
+              users.map((user) => (
+                <tr key={user._id}>
+                  <td>{user.username}</td>
+                  <td>{user.email}</td>
+                  <td>{user.phone}</td>
+
+                  <td>
+                    <button className="edit-btn">Edit</button>
+                  </td>
+
+                  <td>
+                    <button className="delete-btn">Delete</button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="5">No users found</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
