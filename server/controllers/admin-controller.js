@@ -17,6 +17,56 @@ const getallUsers = async (req, res) => {
 };
 
 
+// GET SINGLE USER BY ID
+const getUserById = async (req, res) => {
+  try {
+    const id = req.params.id; // URL mathi id levu
+
+    const user = await User.findById(id).select("-password"); 
+    // password hide karva mate
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log("Error in getUserById:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+
+// UPDATE USER BY ID
+const updateUserById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updatedUserData = req.body;
+
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      updatedUserData,
+      {
+        new: true,
+        runValidators: true,
+      }
+    ).select("-password");
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    return res.status(200).json({
+      message: "User updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.log("Error in updateUserById:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 // Delete user by ID
 const deleteUserById = async (req, res) => {
   try {
@@ -56,4 +106,4 @@ try {
 }
 }
 
-module.exports = {getallUsers,getallContacts,deleteUserById};
+module.exports = {getallUsers,getallContacts,deleteUserById,updateUserById,getUserById};

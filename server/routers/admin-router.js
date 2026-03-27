@@ -1,21 +1,23 @@
 const express = require("express");
-
-const authMiddleware=require("../middleware/auth-middleware");
-const adminController=require("../controllers/admin-controller")
-
 const router = express.Router();
 
-const { getallUsers, getallContacts } = require("../controllers/admin-controller");
+const authMiddleware = require("../middleware/auth-middleware");
 const verifyAdmin = require("../middleware/admin-middleware");
+const adminController = require("../controllers/admin-controller");
 
-// 👉 GET: /api/admin/users
-router.get("/users",authMiddleware,verifyAdmin, adminController.getallUsers);
+// GET ALL USERS
+router.get("/users", authMiddleware, verifyAdmin, adminController.getallUsers);
 
-router.delete("/users/delete/:id",authMiddleware,verifyAdmin,adminController.deleteUserById);
+// GET SINGLE USER BY ID
+router.get("/users/:id", authMiddleware, verifyAdmin, adminController.getUserById);
 
-// 👉 GET: /api/admin/contacts
-router.get("/contacts", authMiddleware,verifyAdmin,adminController.getallContacts);
+// UPDATE USER BY ID
+router.patch("/users/:id", authMiddleware, verifyAdmin, adminController.updateUserById);
 
-console.log("✅ Admin router working");
+// DELETE USER BY ID
+router.delete("/users/delete/:id", authMiddleware, verifyAdmin, adminController.deleteUserById);
+
+// GET ALL CONTACTS
+router.get("/contacts", authMiddleware, verifyAdmin, adminController.getallContacts);
 
 module.exports = router;

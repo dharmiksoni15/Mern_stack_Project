@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminUsers.css";
+import { useNavigate } from "react-router-dom";
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   const getAllUsers = async () => {
     try {
@@ -79,7 +81,11 @@ const AdminUsers = () => {
                   <td>{user.phone}</td>
 
                   <td>
-                    <button className="edit-btn">Edit</button>
+                    <button
+                      onClick={() => navigate(`/admin/users/${user._id}/edit`)}
+                    >
+                      Edit
+                    </button>
                   </td>
 
                   <td>
