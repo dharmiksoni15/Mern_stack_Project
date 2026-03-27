@@ -16,6 +16,30 @@ const getallUsers = async (req, res) => {
   }
 };
 
+
+// Delete user by ID
+const deleteUserById = async (req, res) => {
+  try {
+    // URL mathi user ni ID levani
+    const id = req.params.id;
+
+    // MongoDB mathi user delete karvo
+    const deletedUser = await User.deleteOne({ _id: id });
+
+    // Jo user na male to 404 aapvu
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Success response
+    return res.status(200).json({ message: "User deleted successfully" });
+  } catch (error) {
+    console.log("Delete User Error:", error);
+    return res.status(500).json({ message: "Error deleting user" });
+  }
+};
+
+
 // getAll contacts logic
 
 const getallContacts=async(req,res)=>{
@@ -32,4 +56,4 @@ try {
 }
 }
 
-module.exports = {getallUsers,getallContacts};
+module.exports = {getallUsers,getallContacts,deleteUserById};

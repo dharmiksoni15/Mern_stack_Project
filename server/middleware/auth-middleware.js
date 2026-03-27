@@ -1,38 +1,50 @@
 const jwt = require("jsonwebtoken");
 
-const user = require("../models/user-model");
-
+// 🔐 Authentication Middleware
 const authMiddleware = async (req, res, next) => {
-  try {
-    // 1. Authorization header mathi token levu
-    const token = req.header("Authorization");
+  // 👉 Step 1: Authorization header lo
+  const authHeader = req.headers.authorization;
 
-    if (!token) {
-      return res
-        .status(401)
-        .json({ message: "Unauthorized, Token not provided" });
-    }
-    console.log("token from middleware", token);
+  // Example:
+  // "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 
-    // 2. Bearer remove karvu
-    const jwtToken = token.replace("Bearer ", "").trim();
-
-    // 3. Token verify karvu
-    const isVerified = jwt.verify(jwtToken, process.env.JWT_SECRET_KEY);
-
-    // 4. Database mathi user find karvo
-    const userData = await User.findOne({ email: isVerified.email }).select({
-      password: 0,
+  // 👉 Step 2: Check karo header exist kare che ke nai
+  // ane "Bearer " thi start thay che ke nai
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({
+      message: "Unauthorized, token missing",
     });
+  }
 
-    // 5. Request ma user data attach karvu
-    req.user = userData;
+  // 👉 Step 3: "Bearer " remove kari ne actual token levu
+  // split(" ") thi array male: ["Bearer", "token"]
+  const token = authHeader.split(" ")[1];
+
+  // Debug mate:
+  console.log("Token only:", token);
+
+  try {
+    // 👉 Step 4: Token verify karo using secret key
+    const verifiedToken = jwt.verify(
+      token,
+      process.env.JWT_SECRET_KEY
+    );
+
+    // 👉 Step 5: Verified data request ma attach karo
+    // aa data aagal controllers ma use thai sake
+    req.user = verifiedToken;
+    req.userID = verifiedToken.userId;
     req.token = token;
-    req.userID = userData._id;
 
+    // 👉 Step 6: Next middleware / controller ne call karo
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Invalid Token" });
+    // 👉 Jo token invalid hoy to error return karo
+    console.log("JWT Verify Error:", error.message);
+
+    return res.status(401).json({
+      message: "Invalid Token",
+    });
   }
 };
 

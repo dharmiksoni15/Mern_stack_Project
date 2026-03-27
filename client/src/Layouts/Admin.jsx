@@ -19,10 +19,34 @@ const AdminUsers = () => {
 
       setUsers(res.data); // ⚠️ check backend format
     } catch (error) {
-      console.log(
-        "Error:",
-        error.response?.data || error.message
+      console.log("Error:", error.response?.data || error.message);
+    }
+  };
+
+  // Delete user
+  const deleteUser = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this user?",
+    );
+    if (!confirmDelete) return;
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.delete(
+        `http://localhost:3100/api/admin/users/delete/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
+
+      console.log(res.data);
+
+      // UI update without refresh
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
+    } catch (error) {
+      console.log("Delete Error:", error.response?.data || error.message);
     }
   };
 
@@ -59,7 +83,12 @@ const AdminUsers = () => {
                   </td>
 
                   <td>
-                    <button className="delete-btn">Delete</button>
+                    <button
+                      onClick={() => deleteUser(user._id)}
+                      className="delete-btn"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))
