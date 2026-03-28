@@ -1,8 +1,7 @@
 import { useState } from "react";
 import "./Register.css";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../store/Auth";
-import { toast } from "react-toastify"; // ✅ added
+import { toast } from "react-toastify";
 
 const URL = "http://localhost:3100/api/auth/register";
 
@@ -15,7 +14,6 @@ const Register = () => {
   });
 
   const navigate = useNavigate();
-  const { storeToken } = useAuth();
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -36,20 +34,22 @@ const Register = () => {
       const data = await response.json();
 
       if (response.ok) {
-        toast.success("Registration Successful ✅"); // ✅ updated
+        toast.success("Registration Successful ✅");
 
-        storeToken(data.token);
+        setUser({
+          username: "",
+          email: "",
+          phone: "",
+          password: "",
+        });
 
-        setUser({ username: "", email: "", phone: "", password: "" });
-
-        // ⏳ delay so toast can show
         setTimeout(() => {
           navigate("/login");
-        }, 3500);
+        }, 1500);
       } else {
         console.error("Registration failed:", data);
 
-        toast.error(data.message || "Registration failed"); // ✅ fix
+        toast.error(data.message || "Registration failed");
 
         if (data.extraDetails) {
           data.extraDetails.forEach((err) => toast.error(err));
@@ -57,7 +57,7 @@ const Register = () => {
       }
     } catch (error) {
       console.error("Network/Error:", error);
-      toast.error("Something went wrong 🚨"); // ✅ updated
+      toast.error("Something went wrong 🚨");
     }
   };
 
